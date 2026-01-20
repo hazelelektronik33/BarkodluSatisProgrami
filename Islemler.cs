@@ -1,0 +1,245 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Lisans;
+namespace BarkodluSatis
+{
+    static class Islemler
+    {
+        
+        public static double DoubleYap(string deger)
+        {
+            double sonuc;
+            double.TryParse(deger,System.Globalization.NumberStyles.Currency, CultureInfo.CurrentUICulture.NumberFormat, out sonuc);
+            return Math.Round(sonuc, 2);
+
+
+
+        }
+
+
+        public static void StokAzalt(string barkod, double miktar)
+        {
+            if (barkod != SabitDegerler.BarkodsuzUrun)
+            {
+                using (var db = new BarkodDbEntities())
+                {
+                    var urunbilgi = db.Urun.SingleOrDefault(x => x.Barkod == barkod);
+                    urunbilgi.Miktar -= miktar;
+                    db.SaveChanges();
+                }
+            }
+
+        }
+        public static void StokArtir(string barkod, double miktar)
+        {
+            if (barkod != SabitDegerler.BarkodsuzUrun)
+            {
+                using (var db = new BarkodDbEntities())
+                {
+                    var urunbilgi = db.Urun.SingleOrDefault(x => x.Barkod == barkod);
+                    urunbilgi.Miktar += miktar;
+                    db.SaveChanges();
+                }
+
+            }
+        }
+
+        public static void GridDuzenle(DataGridView dgv)
+        {
+            if (dgv.Columns.Count>0)
+            {
+                for (int i = 0; i < dgv.Columns.Count; i++)
+                {
+                    switch (dgv.Columns[i].HeaderText)
+                    {
+                        case"Id":
+                            dgv.Columns[i].HeaderText = "Numara"; break;
+                        case "UrunId":
+                            dgv.Columns[i].HeaderText = "Ürün Numarası"; break;
+                        case "UrunAd":
+                            dgv.Columns[i].HeaderText = "Ürün Ad"; break;
+                        case "IslemNo":
+                            dgv.Columns[i].HeaderText = "İşlem No"; break;
+                        case "OdemeSekli":
+                            dgv.Columns[i].HeaderText = "Ödeme Şekli"; break;
+                        case "Aciklama":
+                            dgv.Columns[i].HeaderText = "Açıklama"; break;
+                        case "UrunGrup":
+                            dgv.Columns[i].HeaderText = "Ürün Grubu"; break;
+                        case "AlisFiyati":
+                            dgv.Columns[i].HeaderText = "Alış Fiyatı";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2";
+                            break;
+                        case "AlisFiyatToplam":
+                            dgv.Columns[i].HeaderText = "Alış Fiyat Toplam";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2";
+                            break;
+                        case "SatisFiyat":
+                            dgv.Columns[i].HeaderText = "Satış Fiyatı";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2";break;
+                        case "KdvOrani":
+                            dgv.Columns[i].HeaderText = "Kdv Oranı";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;break;
+                        case "Birim":
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; break;
+                        case "Miktar":
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; break;
+                        case "odemesekli":
+                            dgv.Columns[i].HeaderText = "Ödeme Şekli";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; break;
+                        case "Kart":
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2"; break;
+                        case "Nakit":
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2"; break;
+                        case "Gelir":
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2"; break;
+
+                        case "Gider":
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2"; break;
+                        case "Kullanici":
+                            dgv.Columns[i].HeaderText = "Kullanıcı";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; break;
+                        case "KullaniciAd":
+                            dgv.Columns[i].HeaderText = "Kullanıcı Adı";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; break;
+                        case "Tedarikci":
+                            dgv.Columns[i].HeaderText = "Tedarikçi Firma";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; break;
+                        case "AdSoyAd":
+                            dgv.Columns[i].HeaderText = "Ad Soyad";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; break;
+                        case "KdvTutari":
+                            dgv.Columns[i].HeaderText = "Kdv Tutarı";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2"; break;
+                        case "Toplam":
+                            dgv.Columns[i].HeaderText = "Toplam";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2"; break;
+                        case "OzelKod":
+                            dgv.Columns[i].HeaderText = "Özel Kod";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2"; break;
+                        case "DolarAlisFiyat":
+                            dgv.Columns[i].HeaderText = "Dolar Alış Fiyat";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2"; break;
+                        case "DolarSatisFiyat":
+                            dgv.Columns[i].HeaderText = "Dolar Satış Fiyat";
+                            dgv.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                            dgv.Columns[i].DefaultCellStyle.Format = "c2"; break;
+
+
+
+
+                    }
+                }
+            }
+        }
+
+        public static void StokHareket (string barkod,string urunad,string birim, double miktar,string  urungrup, string kullanici)
+        {
+            using (var db=new BarkodDbEntities())
+            {
+                StokHareket sh = new StokHareket();
+                sh.Barkod = barkod;
+                sh.UrunAd = urunad;
+                sh.Birim = birim;
+                sh.Miktar = miktar;
+                sh.UrunGrup = urungrup;
+                sh.Kullanici = kullanici;
+                sh.Tarih = DateTime.Now;
+                db.StokHareket.Add(sh);
+                db.SaveChanges();
+            }
+        }
+
+        public static int KartKomisyon()
+        {
+            int sonuc = 0;
+            using (var db=new BarkodDbEntities())
+            {
+                if (db.Sabit.Any())
+                {
+                    sonuc = Convert.ToInt16(db.Sabit.First().KartKomisyon);
+                }
+                else
+                {
+                    sonuc = 0;
+                }
+            }
+            return sonuc;
+        }       
+
+        public static void SabitVarsayilan()
+        {
+            using (var db=new BarkodDbEntities())
+            {
+                if (!db.Sabit.Any())
+                {
+                    Sabit s = new Sabit();
+                    s.KartKomisyon = 0;
+                    s.Yazici = false;
+                    s.AdSoyad = "Admin";
+                    s.Unvan = "Admin";
+                    s.Adres = "Admin";
+                    s.Telefon = "Admin";
+                    s.Eposta = "Admin";
+                    db.Sabit.Add(s);
+                    db.SaveChanges();
+
+                }
+            }
+        }
+
+        public static void Backup()
+        {
+            SaveFileDialog save = new SaveFileDialog();
+            save.Filter = "Veri Yedek Dosyası|0.bak";
+            save.FileName = DateTime.Now.ToShortDateString() + "Barkodlu_Satis_Programi";
+            if (save.ShowDialog()==DialogResult.OK)
+            {
+                try
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    if (File.Exists(save.FileName))
+                    {
+                       File.Delete(save.FileName);
+                    }
+
+                    var dbHedef = save.FileName;
+                    string dbKaynak = Application.StartupPath + @"\BarkodDb.mdf";
+                    using (var db=new BarkodDbEntities())
+                    {
+                        var cmd = @"BACKUP DATABASE[" + dbKaynak + "] TO DISK='" + dbHedef + "'";
+                        db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, cmd);
+                    }
+                    Cursor.Current = Cursors.Default;
+                    MessageBox.Show("Yedekleme Tamamlanmıştır.");
+
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+        }
+
+    }
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b4a9180943a044e4841e997ee2b663ec" Name="Diagram1">
+        <EntityTypeShape EntityType="BarkodDbModel.Terazi" Width="1.5" PointX="2" PointY="0.5" />
+        <EntityTypeShape EntityType="BarkodDbModel.HizliUrun" Width="1.5" PointX="3.5" PointY="0.5" />
+        <EntityTypeShape EntityType="BarkodDbModel.Islem" Width="1.5" PointX="6.5" PointY="0.5" />
+        <EntityTypeShape EntityType="BarkodDbModel.IslemOzet" Width="1.5" PointX="8" PointY="0.5" />
+        <EntityTypeShape EntityType="BarkodDbModel.Satis" Width="1.5" PointX="5" PointY="0.5" />
+        <EntityTypeShape EntityType="BarkodDbModel.UrunGrup" Width="1.5" PointX="2" PointY="1.875" />
+        <EntityTypeShape EntityType="BarkodDbModel.Barkod" Width="1.5" PointX="3.5" PointY="2.25" />
+        <EntityTypeShape EntityType="BarkodDbModel.StokHareket" Width="1.5" PointX="2" PointY="3.25" />
+        <EntityTypeShape EntityType="BarkodDbModel.Sabit" Width="1.5" PointX="9.5" PointY="0.5" />
+        <EntityTypeShape EntityType="BarkodDbModel.Kullanici" Width="1.5" PointX="6.5" PointY="1.875" />
+        <EntityTypeShape EntityType="BarkodDbModel.CariGrup" Width="1.5" PointX="11" PointY="0.5" />
+        <EntityTypeShape EntityType="BarkodDbModel.Cariler" Width="1.5" PointX="12.5" PointY="0.5" />
+        <EntityTypeShape EntityType="BarkodDbModel.Guvenlik" Width="1.5" PointX="9.5" PointY="3" />
+        <EntityTypeShape EntityType="BarkodDbModel.Urun" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="BarkodDbModel.TeknikServis" Width="1.5" PointX="3.5" PointY="3.75" />
+        <EntityTypeShape EntityType="BarkodDbModel.DovizKur" Width="1.5" PointX="0.5" PointY="5.25" />
+        <EntityTypeShape EntityType="BarkodDbModel.EvrakNo" Width="1.5" PointX="2" PointY="4.5" />
+        <EntityTypeShape EntityType="BarkodDbModel.TeklifKalemler" Width="1.5" PointX="11" PointY="2.75" />
+        <EntityTypeShape EntityType="BarkodDbModel.Teklifler" Width="1.5" PointX="8" PointY="3.75" />
+        <AssociationConnector Association="BarkodDbModel.FK_TeklifKalemler_Teklifler" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
